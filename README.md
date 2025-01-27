@@ -1,5 +1,7 @@
 # Headless WebLiero
 
+> This is a fork of the original WebLiero Headless project with added Docker support.
+
 ## Relevant links
 
 * [WebLiero Headless API](https://www.webliero.com/headlessdocs.txt)
