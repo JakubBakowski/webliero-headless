@@ -1,0 +1,16 @@
+version: '3'
+services:
+  webliero:
+    build: .
+    container_name: webliero
+    env_file: .env
+    environment:
+      - WEBLIERO_TOKEN=${WEBLIERO_TOKEN}
+      - ADMIN_AUTH_KEY=${ADMIN_AUTH_KEY}
+    restart: unless-stopped
+    # Add this if you want to see the logs easily
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3" 

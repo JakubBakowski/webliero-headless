@@ -263,3 +263,62 @@ sudo adduser webliero
 * Bonus Drops: Health only
 * Bonus Spawn Frequency: 30 (default)
 * Weapon Bans: Big Nuke, Crackler, Bouncy Larpa
+
+## Method 3: Docker
+
+### Setup
+
+1. Copy `.env.example` to `.env` and set your WebLiero token and admin auth key:
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and add:
+- Your token from http://www.webliero.com/headlesstoken
+- Your **public** auth key from https://www.webliero.com/playerauth
+  - ⚠️ Important: Use your **public** key (the longer string), not your private key
+  - Example public key format: `nilGYweBI76riN6nO1DEDfPYPhP7wO31PM55wqy-5QA`
+  - Never share your private key or add it to any configuration files
+
+2. Create a `scripts` directory and add your room scripts (e.g. `basic.js`):
+```bash
+mkdir scripts
+cp basic.js scripts/
+```
+
+3. Build and run the Docker container:
+```bash
+# Build the image
+docker build -t webliero-headless .
+
+# Run with environment variables from .env file
+docker run --env-file .env webliero-headless
+
+# Or specify environment variables directly
+docker run \
+  -e WEBLIERO_TOKEN=your_token_here \
+  -e ADMIN_AUTH_KEY=your_auth_key_here \
+  webliero-headless
+```
+
+### Docker Compose (optional)
+
+You can also use Docker Compose for easier management. Create a `docker-compose.yml`:
+
+```yaml
+version: '3'
+services:
+  webliero:
+    build: .
+    environment:
+      - WEBLIERO_TOKEN=${WEBLIERO_TOKEN}
+      - ADMIN_AUTH_KEY=${ADMIN_AUTH_KEY}
+    # Or use env_file:
+    # env_file: .env
+    restart: unless-stopped
+```
+
+Then run:
+```bash
+docker-compose up -d
+```
